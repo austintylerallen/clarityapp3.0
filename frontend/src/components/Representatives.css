@@ -1,0 +1,22 @@
+.representatives-container {
+  padding: 20px;
+}
+
+.search-form {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 20px; /* Added margin bottom for spacing */
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
