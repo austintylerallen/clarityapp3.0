@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../src'; // Import the custom CSS file
+import '../../src/styles.css'; // Import your main styles.css
 
 const News = () => {
   const [news, setNews] = useState([]);
