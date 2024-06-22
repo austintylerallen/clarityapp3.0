@@ -10,7 +10,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <header className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">Clarity</Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@ const App = () => {
               </ul>
             </div>
           </div>
-        </nav>
+        </header>
         <div className="container mt-4">
           <Routes>
             <Route path="/news" element={<News />} />
@@ -42,6 +42,9 @@ const App = () => {
             <Route path="/" element={<h1 className="text-white">Welcome to Clarity</h1>} />
           </Routes>
         </div>
+        <footer className="bg-dark text-white mt-5 p-4 text-center">
+          © 2024 Clarity - All Rights Reserved
+        </footer>
       </div>
     </Router>
   );

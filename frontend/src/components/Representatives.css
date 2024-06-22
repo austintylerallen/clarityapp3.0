@@ -1,22 +1,53 @@
 .representatives-container {
-  padding: 20px;
-}
-
-.search-form {
-  text-align: center;
-  margin: auto;
-  margin-bottom: 20px; /* Added margin bottom for spacing */
-}
-
-.results {
   margin-top: 20px;
+  text-align: center;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s;
+.page-header {
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.card {
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #333333; /* Ensure background color matches theme */
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  width: 100%; /* Make the image take the full width of the card */
+  height: 200px; /* Fixed height to ensure uniform size */
+  object-fit: cover; /* Ensure the image covers the entire area */
+  border-radius: 0; /* Ensure the image is rectangular */
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  padding: 20px; /* Adjust padding for spacing within the card */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+}
+
+.card-text {
+  flex-grow: 1;
+  color: #cccccc;
+  text-align: center;
 }
