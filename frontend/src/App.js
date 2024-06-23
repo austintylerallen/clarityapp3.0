@@ -6,6 +6,8 @@ import Elections from './components/Elections';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import Profile from './components/Profile'; // Import Profile component
+import PrivateRoute from './utils/PrivateRoute'; // Ensure this is correctly implemented
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
@@ -39,18 +41,28 @@ const App = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Home</Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/news">News</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/representatives">Representatives</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/elections">Elections</Link>
-                </li>
+                {isLoggedIn && (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/news">News</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/representatives">Representatives</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/elections">Elections</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/profile">Profile</Link>
+                    </li>
+                  </>
+                )}
               </ul>
               <ul className="navbar-nav ms-auto">
-                {!isLoggedIn && (
+                {!isLoggedIn ? (
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/login">Login</Link>
@@ -59,11 +71,12 @@ const App = () => {
                       <Link className="nav-link" to="/register">Register</Link>
                     </li>
                   </>
-                )}
-                {isLoggedIn && (
-                  <li className="nav-item">
-                    <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
-                  </li>
+                ) : (
+                  <>
+                    <li className="nav-item">
+                      <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
+                    </li>
+                  </>
                 )}
               </ul>
             </div>
@@ -71,12 +84,13 @@ const App = () => {
         </header>
         <div className="container mt-4">
           <Routes>
-            <Route path="/news" element={<News />} />
-            <Route path="/representatives" element={<Representatives />} />
-            <Route path="/elections" element={<Elections />} />
             <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<PrivateRoute isAuthenticated={isLoggedIn} element={Dashboard} />} />
+            <Route path="/news" element={<PrivateRoute isAuthenticated={isLoggedIn} element={News} />} />
+            <Route path="/representatives" element={<PrivateRoute isAuthenticated={isLoggedIn} element={Representatives} />} />
+            <Route path="/elections" element={<PrivateRoute isAuthenticated={isLoggedIn} element={Elections} />} />
+            <Route path="/profile" element={<PrivateRoute isAuthenticated={isLoggedIn} element={Profile} />} />
             <Route path="/" element={<h1 className="text-white">Welcome to Clarity</h1>} />
           </Routes>
         </div>
