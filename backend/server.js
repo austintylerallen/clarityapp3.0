@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const connectDB = require('./config/db'); // Assuming you have the db.js file in a config directory
+const connectDB = require('./config/db');
 require('dotenv').config();
 
 const app = express();
@@ -42,12 +42,12 @@ app.get('/api/representatives', async (req, res) => {
 
 // News API Route
 app.get('/api/news', async (req, res) => {
-  const { q } = req.query; // Get the query parameter
+  const { q } = req.query;
   console.log('Fetching news for query:', q);
   try {
     const response = await axios.get('https://newsapi.org/v2/everything', {
       params: {
-        q: q || 'politics', // Use the search query or default to 'politics'
+        q: q || 'politics',
         apiKey: process.env.NEWS_API_KEY
       }
     });

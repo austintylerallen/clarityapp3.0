@@ -18,9 +18,13 @@ const Login = ({ setIsLoggedIn }) => {
       localStorage.setItem('token', response.data.token);
       setError(null);
       setIsLoggedIn(true);
-      navigate('/dashboard'); // Redirect to the dashboard
+      navigate('/dashboard');
     } catch (error) {
-      setError('Invalid credentials');
+      if (error.response && error.response.data && error.response.data.errors) {
+        setError(error.response.data.errors.map(err => err.msg).join(', '));
+      } else {
+        setError('Login failed');
+      }
     }
   };
 
@@ -30,20 +34,22 @@ const Login = ({ setIsLoggedIn }) => {
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             className="form-control"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             className="form-control"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
