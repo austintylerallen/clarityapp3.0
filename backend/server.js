@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const auth = require('./middleware/auth'); // Import auth middleware
 require('dotenv').config();
 
 const app = express();
@@ -25,8 +26,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Open States API Route
-app.get('/api/representatives', async (req, res) => {
+// Open States API Route (protected)
+app.get('/api/representatives', auth, async (req, res) => {
   try {
     const response = await axios.get('https://v3.openstates.org/people?jurisdiction=ocd-jurisdiction/country:us/state:ny/government', {
       headers: {
@@ -40,8 +41,8 @@ app.get('/api/representatives', async (req, res) => {
   }
 });
 
-// News API Route
-app.get('/api/news', async (req, res) => {
+// News API Route (protected)
+app.get('/api/news', auth, async (req, res) => {
   const { q } = req.query;
   console.log('Fetching news for query:', q);
   try {

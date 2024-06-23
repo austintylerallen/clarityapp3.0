@@ -11,7 +11,11 @@ const Representatives = () => {
   useEffect(() => {
     const fetchReps = async () => {
       try {
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:5001/api/representatives', {
+          headers: {
+            'x-auth-token': token
+          },
           withCredentials: true,
         });
         setReps(response.data.results);

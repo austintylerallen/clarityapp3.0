@@ -2,7 +2,8 @@ const express = require('express');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const User = require('../models/User');  // Correct path to User model
+const User = require('../models/User'); // Correct path to User model
+const auth = require('../middleware/auth'); // Import auth middleware
 const router = express.Router();
 
 // Register route
@@ -61,9 +62,6 @@ router.post(
   }
 );
 
-module.exports = router;
-
-
 // Login route
 router.post(
   '/login',
@@ -115,5 +113,44 @@ router.post(
     }
   }
 );
+
+// Fetch user profile
+router.get('/user', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Update user profile
+router.put('/user', auth, [
+  check('name', 'Name is required').not().isEmpty(),
+  check('email', 'Please include a valid email').isEmail()
+], async (req, res) => {
+  const { name, email, password } = req.body;
+  const userFields = { name, email };
+
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    userFields.password = await bcrypt.hash(password, salt);
+  }
+
+  try {
+    let user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    user = await User.findByIdAndUpdate(req.user.id, { $set: userFields }, { new: true });
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;

@@ -12,8 +12,12 @@ const News = () => {
   const fetchNews = async (searchQuery = '') => {
     setLoading(true);
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:5001/api/news', {
         params: { q: searchQuery },
+        headers: {
+          'x-auth-token': token
+        },
         withCredentials: true,
       });
       setNews(response.data.articles);
